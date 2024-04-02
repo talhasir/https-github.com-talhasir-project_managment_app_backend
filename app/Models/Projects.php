@@ -21,4 +21,4 @@ class Projects extends Model
     public function updated_by(){
         return $this->belongsTo(User::class, 'updated_by');
     }
-}
+}   

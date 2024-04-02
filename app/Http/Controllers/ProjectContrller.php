@@ -6,6 +6,8 @@ use App\Models\Projects;
 use App\Http\Requests\StoreProjectsRequest;
 use App\Http\Requests\UpdateProjectsRequest;
 use App\Http\Resources\PorjectsResource;
+use App\Http\Resources\ProjectPaginationResource;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class ProjectContrller extends Controller
 {
@@ -15,11 +17,12 @@ class ProjectContrller extends Controller
     public function index()
     {
         $query = Projects::query();
-        $projects = $query->paginate(15)->onEachSide(1);
+        $projects = $query->paginate(10)->onEachSide(1);
 
-        return [
-            'projects' => PorjectsResource::collection($projects),
-        ];
+        // return $paginationLinks;
+        return response()->json([
+            'projects' => $projects
+        ]);
     }
 
     /**

@@ -24,8 +24,8 @@ class PorjectsResource extends JsonResource
             'create_date' => (new Carbon($this->created_at))->format('d-m-y'),
             'due_date' => (new Carbon($this->due_date))->format('d-m-y'),
             'description' => $this->description,
-            'createdBy' => $this->createdBy,
-            'updatedBy' => $this->updatedBy,
+            'createdBy' => $this->created_by,
+            'updatedBy' => $this->updated_by,
         ];
     }
 }
