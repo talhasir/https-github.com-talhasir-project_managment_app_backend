@@ -19,9 +19,18 @@ class ProjectContrller extends Controller
         $query = Projects::query();
         $projects = $query->paginate(10)->onEachSide(1);
 
-        // return $paginationLinks;
-        return response()->json([
-            'projects' => $projects
+         return response()->json([
+            'projects' => [
+                'data' => PorjectsResource::collection($projects),
+                'pagination' => [
+                    'total' => $projects->total(),
+                    'per_page' => $projects->perPage(),
+                    'current_page' => $projects->currentPage(),
+                    'last_page' => $projects->lastPage(),
+                    'from' => $projects->firstItem(),
+                    'to' => $projects->lastItem(),
+                ],
+            ]
         ]);
     }
 

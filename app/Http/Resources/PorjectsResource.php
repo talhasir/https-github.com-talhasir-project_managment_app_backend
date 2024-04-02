@@ -21,11 +21,10 @@ class PorjectsResource extends JsonResource
             'name' => $this->name,
             'image_path' => $this->image_path,
             'status' => $this->status,
-            'create_date' => (new Carbon($this->created_at))->format('d-m-y'),
-            'due_date' => (new Carbon($this->due_date))->format('d-m-y'),
+            'created_at' => (new \Carbon\Carbon($this->created_at))->format('d-m-y'),
+            'due_date' => (new \Carbon\Carbon($this->due_date))->format('d-m-y'),
             'description' => $this->description,
-            'createdBy' => $this->created_by,
-            'updatedBy' => $this->updated_by,
+            'created_by' => $this->created_by,
         ];
     }
 }
