@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Projects;
 use App\Http\Requests\StoreProjectsRequest;
 use App\Http\Requests\UpdateProjectsRequest;
+use Illuminate\Http\Request;
 use App\Http\Resources\PorjectsResource;
 use App\Http\Resources\ProjectPaginationResource;
 use SebastianBergmann\CodeCoverage\Report\Xml\Project;
@@ -14,11 +15,21 @@ class ProjectContrller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $query = Projects::query();
+        $queryParams =  $request->query();
+        
+        if (isset($queryParams['search'])) {
+            $searchTerm = $queryParams['search'];
+            $query->where('name', 'like', '%'.$searchTerm.'%');
+        }
+        if (isset($queryParams['select'])) {
+            $searchTerm = $queryParams['select'];
+            $query->where('status', 'like', '%'.$searchTerm.'%');
+        }
+        
         $projects = $query->paginate(10)->onEachSide(1);
-
          return response()->json([
             'projects' => [
                 'data' => PorjectsResource::collection($projects),
