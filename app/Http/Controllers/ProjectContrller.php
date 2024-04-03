@@ -19,7 +19,12 @@ class ProjectContrller extends Controller
     {
         $query = Projects::query();
         $queryParams =  $request->query();
-        
+
+        $sortField = $request->query('sort_field');
+        $sortDirection = $request->query('sort_direction');
+
+        // return [$sortDirection, $sortField];
+
         if (isset($queryParams['search'])) {
             $searchTerm = $queryParams['search'];
             $query->where('name', 'like', '%'.$searchTerm.'%');
@@ -33,6 +38,7 @@ class ProjectContrller extends Controller
          return response()->json([
             'projects' => [
                 'data' => PorjectsResource::collection($projects),
+                'queryParams' => $queryParams,
                 'pagination' => [
                     'total' => $projects->total(),
                     'per_page' => $projects->perPage(),
