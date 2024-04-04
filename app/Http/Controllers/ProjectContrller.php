@@ -20,17 +20,16 @@ class ProjectContrller extends Controller
         $query = Projects::query();
         $queryParams =  $request->query();
 
-        $sortField = $request->query('sort_field');
-        $sortDirection = $request->query('sort_direction');
-
-        // return [$sortDirection, $sortField];
-
-        if (isset($queryParams['search'])) {
-            $searchTerm = $queryParams['search'];
+        if (isset($queryParams['filters']['name'])) {
+            $searchTerm = $queryParams['filters']['name'][0];
             $query->where('name', 'like', '%'.$searchTerm.'%');
         }
-        if (isset($queryParams['select'])) {
-            $searchTerm = $queryParams['select'];
+        if (isset($queryParams['filters']['created_by'])) {
+            $searchTerm = $queryParams['filters']['name'][0];
+            $query->where('name', 'like', '%'.$searchTerm.'%');
+        }
+        if (isset($queryParams['filters']['status'])) {
+            $searchTerm = $queryParams['filters']['status'][0];
             $query->where('status', 'like', '%'.$searchTerm.'%');
         }
         

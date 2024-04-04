@@ -5,15 +5,48 @@ namespace App\Http\Controllers;
 use App\Models\Tasks;
 use App\Http\Requests\StoreTasksRequest;
 use App\Http\Requests\UpdateTasksRequest;
+use App\Http\Resources\TasksResource;
+use Illuminate\Console\View\Components\Task;
+use Illuminate\Http\Request;
 
 class TaskContrller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Tasks::query();
+        $queryParams =  $request->query();
+
+        if (isset($queryParams['filters']['name'])) {
+            $searchTerm = $queryParams['filters']['name'][0];
+            $query->where('name', 'like', '%'.$searchTerm.'%');
+        }
+        if (isset($queryParams['filters']['created_by'])) {
+            $searchTerm = $queryParams['filters']['name'][0];
+            $query->where('name', 'like', '%'.$searchTerm.'%');
+        }
+        if (isset($queryParams['filters']['status'])) {
+            $searchTerm = $queryParams['filters']['status'][0];
+            $query->where('status', 'like', '%'.$searchTerm.'%');
+        }
+        
+        $projects = $query->paginate(10)->onEachSide(1);
+         return response()->json([
+            'projects' => [
+                'data' => TasksResource::collection($projects),
+                'queryParams' => $queryParams,
+                'pagination' => [
+                    'total' => $projects->total(),
+                    'per_page' => $projects->perPage(),
+                    'current_page' => $projects->currentPage(),
+                    'last_page' => $projects->lastPage(),
+                    'from' => $projects->firstItem(),
+                    'to' => $projects->lastItem(),
+                ],
+            ]
+        ]);
     }
 
     /**
