@@ -69,9 +69,9 @@ class ProjectContrller extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Projects $projects)
+    public function show(Projects $project)
     {
-        //
+        return ['project' => new PorjectsResource($project)];
     }
 
     /**

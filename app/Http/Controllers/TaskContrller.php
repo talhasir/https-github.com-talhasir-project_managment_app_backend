@@ -19,6 +19,10 @@ class TaskContrller extends Controller
         $query = Tasks::query();
         $queryParams =  $request->query();
 
+        if (isset($queryParams['filters']['project_name'])) {
+            $searchTerm = $queryParams['filters']['project_name'][0];
+            $query->where('projects_id', 'like', '%'.$searchTerm.'%');
+        }
         if (isset($queryParams['filters']['name'])) {
             $searchTerm = $queryParams['filters']['name'][0];
             $query->where('name', 'like', '%'.$searchTerm.'%');
@@ -31,10 +35,14 @@ class TaskContrller extends Controller
             $searchTerm = $queryParams['filters']['status'][0];
             $query->where('status', 'like', '%'.$searchTerm.'%');
         }
+        if (isset($queryParams['filters']['priority'])) {
+            $searchTerm = $queryParams['filters']['priority'][0];
+            $query->where('priority', 'like', '%'.$searchTerm.'%');
+        }
         
         $projects = $query->paginate(10)->onEachSide(1);
          return response()->json([
-            'projects' => [
+            'tasks' => [
                 'data' => TasksResource::collection($projects),
                 'queryParams' => $queryParams,
                 'pagination' => [
