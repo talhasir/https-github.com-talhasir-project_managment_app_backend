@@ -33,7 +33,8 @@ class ProjectContrller extends Controller
             $query->where('status', 'like', '%'.$searchTerm.'%');
         }
         
-        $projects = $query->paginate(10)->onEachSide(1);
+        $projects = $query->orderBy('id', 'desc')->paginate(10);
+        
          return response()->json([
             'projects' => [
                 'data' => PorjectsResource::collection($projects),
@@ -63,7 +64,14 @@ class ProjectContrller extends Controller
      */
     public function store(StoreProjectsRequest $request)
     {
-        //
+        $project = $request->validated();
+        $projectStored = Projects::create($project);
+
+        if ($projectStored) {
+            return response(['Success' => 'Project created successsfully']);
+        }else {
+            return response(['Error' => 'Project not created']);
+        }
     }
 
     /**

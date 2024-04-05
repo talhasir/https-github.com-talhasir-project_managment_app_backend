@@ -11,8 +11,16 @@ class StoreProjectsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
+
+    protected function prepareForValidation()
+{
+    $this->merge([
+        'created_by' => $this->user()->id,
+        'updated_by' => $this->user()->id, 
+    ]);
+}
 
     /**
      * Get the validation rules that apply to the request.
@@ -22,7 +30,13 @@ class StoreProjectsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'status' => 'required|string|max:100',
+            'due_date' => 'nullable|date',
+            'created_by' => 'required',
+            'updated_by' => 'required'
+            // 'image_path' => 'nullable|date',
         ];
     }
 }

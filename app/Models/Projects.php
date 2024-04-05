@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Projects extends Model
 {
     use HasFactory;
+    
+    protected $fillable = ['name', 'description', 'status', 'due_date', 'image_path', 'created_by', 'updated_by'];
 
     public function tasks ()
     {
