@@ -18,12 +18,12 @@ class TasksResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'project_name' => $this->projects_id,
+            'projects_id' => $this->projects_id,
             'name' => $this->name,
             'image_path' => $this->image_path,
             'status' => $this->status,
             'priority' => $this->priority,
-            'to_assigned' => $this->assigned_user_id,
+            'assigned_user_id' => $this->assigned_user_id,
             'created_at' => Carbon::parse($this->created_at)->format('d-m-y'),
             'due_date' =>  Carbon::parse($this->due_date)->format('d-m-y'),
             'description' => $this->description,

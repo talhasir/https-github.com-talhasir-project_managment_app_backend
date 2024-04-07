@@ -23,4 +23,9 @@ class Projects extends Model
     public function updated_by(){
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+    // public function setDueDateAttribute($value)
+    // {
+    //     $this->attributes['due_date'] = date('d-m-Y', strtotime($value));
+    // }
 }   

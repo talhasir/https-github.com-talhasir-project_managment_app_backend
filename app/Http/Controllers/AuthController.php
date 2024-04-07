@@ -29,6 +29,7 @@ class AuthController extends Controller
     public function login(LoginReq $request)
     {
         $credentials = $request->validated();
+        $credentials['password'] = bcrypt($credentials['password']);
         if (!Auth::attempt($credentials)) {
             return response([
                 'error' => 'provided email id or password is incorrect.'
